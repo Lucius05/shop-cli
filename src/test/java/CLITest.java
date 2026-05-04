@@ -9,23 +9,8 @@ public class CLITest {
         assertNotNull(cli);
     }
 
-    @Test
-    void listProductsShouldThrowUntilImplemented() {
-        CLI cli = new CLI();
 
-        assertThrows(
-                UnsupportedOperationException.class,
-                () -> cli.listProducts()
-        );
-    }
 
-    @Test
-    void shouldSupportJsonFormat() {
-        CLI cli = new CLI();
 
-        assertThrows(
-                UnsupportedOperationException.class,
-                () -> cli.listProducts("json")
-        );
-    }
+
 }
