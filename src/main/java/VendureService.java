@@ -106,4 +106,18 @@ public class VendureService {
     public String getUrl() {
         return url;
     }
+
+    public String createProductsQuery() {
+        return "query { products { items { name } } }";
+    }
+
+    public Product parseProduct(String jsonResponse) {
+        JSONObject json = new JSONObject(jsonResponse);
+
+        JSONObject product =
+                json.getJSONObject("data")
+                        .getJSONObject("product");
+
+        return new Product(product.getString("name"), 0.0);
+    }
 }
