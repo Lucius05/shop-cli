@@ -15,9 +15,24 @@ public class ListCommand implements Runnable {
         List<Product> products = service.getProducts();
 
         if (format.equals("json")) {
-            System.out.println("""
-                    [{"name":"Produit 1","price":10.0},{"name":"Produit 2","price":20.0}]
-                    """);
+
+            System.out.println("[");
+
+            for (int i = 0; i < products.size(); i++) {
+
+                Product product = products.get(i);
+
+                System.out.print("""
+                {"name":"%s","price":%s}
+                """.formatted(product.name, product.price));
+
+                if (i < products.size() - 1) {
+                    System.out.println(",");
+                }
+            }
+
+            System.out.println("]");
+
         } else {
             System.out.println("Nom       | Prix");
             System.out.println("----------------");
