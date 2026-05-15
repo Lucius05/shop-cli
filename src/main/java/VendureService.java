@@ -18,6 +18,8 @@ public class VendureService {
         this.url = url;
     }
 
+
+
     public List<Product> getProducts() {
 
         try {
@@ -58,6 +60,43 @@ public class VendureService {
             }
 
             return products;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public Product getProductBySlug(String slug) {
+
+        try {
+
+            String graphqlQuery = """
+            {
+              "query": "query { product(slug:\\"%s\\") { name } }"
+            }
+            """.formatted(slug);
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
+                    .build();
+
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            JSONObject json = new JSONObject(response.body());
+
+            JSONObject product = json
+                    .getJSONObject("data")
+                    .getJSONObject("product");
+
+            String name = product.getString("name");
+
+            return new Product(name, 0.0);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
