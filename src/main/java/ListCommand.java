@@ -11,10 +11,8 @@ public class ListCommand implements Runnable {
 
     @Override
     public void run() {
-        List<Product> products = List.of(
-                new Product("Produit 1", 10.0),
-                new Product("Produit 2", 20.0)
-        );
+        VendureService service = new VendureService("http://localhost:3000/shop-api");
+        List<Product> products = service.getProducts();
 
         if (format.equals("json")) {
             System.out.println("""
